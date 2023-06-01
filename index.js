@@ -51,15 +51,47 @@ const utils = {
     main.innerHTML = content;
     document.querySelector(".btn-container").innerHTML = btn;
   },
+  handleEventMinutes: function () {
+    document.querySelectorAll("input[type='number']").forEach((input) => {
+      input.addEventListener("input", (e) => {
+        exerciceArray.map((exo) => {
+          if (exo.pic == e.target.id) {
+            exo.min = parseInt(e.target.value);
+            console.log(exerciceArray);
+          }
+        });
+      });
+    });
+  },
 };
 
 const page = {
   lobby: function () {
+    let mapArray = exerciceArray
+      .map(
+        (exo) =>
+          `
+    <li>
+      <div class="card-header">
+        <input type= "number" id=${exo.pic} min ="1" max="10" value= ${exo.min}>
+        <span>min</span>
+      </div>
+      <img src="./img/${exo.pic}.png">
+      <i class= "fas fa-arrow-alt-circle-left arrow" data-pic=${exo.pic}>
+      </i>
+      <i class= "fas fa-times-circle deleteBtn" data-pic = ${exo.pic}>
+      </i>
+    </li>
+`
+      )
+      .join("");
     utils.pageContent(
       "Paramétrage <i id'reboot' class='fas fa-undo'></i>",
+      "<ul>" + mapArray + "</ul>",
       "Exercices",
       "<button id ='start'>Commencer<i class ='far fa-play-circle'></i></button>"
     );
+    utils.handleEventMinutes();
   },
 
   routine: function () {
@@ -78,5 +110,3 @@ const page = {
 page.lobby();
 
 //1:19:20
-
-// reprendere
